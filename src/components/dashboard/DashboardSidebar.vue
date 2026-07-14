@@ -1,23 +1,25 @@
 <template>
   <aside
-    class="hidden lg:flex w-[260px] bg-white border-l border-slate-200 flex-col h-screen sticky top-0"
+    class="hidden lg:flex flex-col w-72 bg-white border-l border-slate-200 h-screen sticky top-0"
   >
     <!-- لوگو -->
-    <div class="h-20 border-b border-slate-200 flex items-center justify-center">
+    <div
+      class="h-20 flex items-center justify-center border-b border-slate-200"
+    >
       <div class="flex items-center gap-3">
 
         <div
-          class="w-12 h-12 rounded-2xl bg-green-600 text-white flex items-center justify-center text-xl font-bold"
+          class="w-12 h-12 rounded-2xl bg-green-600 flex items-center justify-center text-white text-xl"
         >
           🌱
         </div>
 
         <div class="text-right">
-          <h2 class="font-bold text-slate-800">
-            اسمارت فارم
+          <h2 class="font-extrabold text-slate-800">
+            اقلیم یار
           </h2>
 
-          <p class="text-sm text-slate-500">
+          <p class="text-xs text-slate-500">
             پنل مدیریت
           </p>
         </div>
@@ -25,49 +27,102 @@
       </div>
     </div>
 
-    <!-- منو -->
-    <nav class="flex-1 px-4 py-6 space-y-2">
+    <!-- اطلاعات کاربر -->
 
-      <RouterLink
-        v-for="item in menuItems"
-        :key="item.title"
-        :to="item.path"
-        class="flex flex-row-reverse items-center justify-between rounded-xl px-4 py-3 transition-all duration-300"
-        :class="
-          route.path === item.path
-            ? 'bg-green-600 text-white shadow'
-            : 'text-slate-700 hover:bg-slate-100'
-        "
-      >
+    <div class="px-6 py-6 border-b border-slate-200">
 
-        <component
-          :is="item.icon"
-          :size="20"
+      <div class="flex flex-col items-center">
+
+        <img
+          src="https://i.pravatar.cc/120"
+          class="w-20 h-20 rounded-full border-4 border-green-100"
         />
 
-        <span class="font-medium">
-          {{ item.title }}
+        <h3 class="mt-4 font-bold text-slate-800">
+          مرتضی اشرف
+        </h3>
+
+        <span class="text-sm text-slate-500">
+          مدیر سیستم
         </span>
 
-      </RouterLink>
+      </div>
 
-    </nav>
+    </div>
 
-    <!-- پایین -->
-    <div class="border-t border-slate-200 p-4">
+    <!-- منو -->
+
+    <div class="flex-1 px-4 py-6 space-y-2">
+
+      <SidebarItem
+        title="داشبورد"
+        to="/dashboard"
+        :icon="LayoutDashboard"
+        :active="route.path==='/dashboard'"
+      />
+
+      <SidebarItem
+        title="مزارع"
+        to="/dashboard/farms"
+        :icon="Trees"
+        :active="route.path.includes('/farms')"
+      />
+
+      <SidebarItem
+        title="آب و هوا"
+        to="/dashboard/weather"
+        :icon="CloudSun"
+        :active="route.path.includes('/weather')"
+      />
+
+      <SidebarItem
+        title="توصیه ها"
+        to="/dashboard/recommendations"
+        :icon="Lightbulb"
+        :active="route.path.includes('/recommendations')"
+      />
+
+      <SidebarItem
+        title="گزارش ها"
+        to="/dashboard/reports"
+        :icon="FileText"
+        :active="route.path.includes('/reports')"
+      />
+
+      <SidebarItem
+        title="پرداخت ها"
+        to="/dashboard/payments"
+        :icon="CreditCard"
+        :active="route.path.includes('/payments')"
+      />
+
+      <SidebarItem
+        title="پروفایل"
+        to="/dashboard/profile"
+        :icon="User"
+        :active="route.path.includes('/profile')"
+      />
+
+    </div>
+
+    <!-- خروج -->
+
+    <div class="p-5 border-t border-slate-200">
 
       <button
-        class="w-full rounded-xl bg-red-500 hover:bg-red-600 transition text-white py-3"
+        class="w-full bg-red-500 hover:bg-red-600 text-white rounded-xl py-3 transition"
       >
         خروج از حساب
       </button>
 
     </div>
+
   </aside>
 </template>
 
 <script setup>
-import { RouterLink, useRoute } from "vue-router";
+import SidebarItem from "./SidebarItem.vue";
+import { useRoute } from "vue-router";
 
 import {
   LayoutDashboard,
@@ -76,41 +131,8 @@ import {
   FileText,
   CreditCard,
   User,
-  LogOut,
+  Lightbulb,
 } from "lucide-vue-next";
 
 const route = useRoute();
-
-const menuItems = [
-  {
-    title: "داشبورد",
-    path: "/dashboard",
-    icon: LayoutDashboard,
-  },
-  {
-    title: "مزارع",
-    path: "/farms",
-    icon: Trees,
-  },
-  {
-    title: "آب و هوا",
-    path: "/weather",
-    icon: CloudSun,
-  },
-  {
-    title: "گزارش‌ها",
-    path: "/reports",
-    icon: FileText,
-  },
-  {
-    title: "پرداخت‌ها",
-    path: "/payments",
-    icon: CreditCard,
-  },
-  {
-    title: "پروفایل",
-    path: "/profile",
-    icon: User,
-  },
-];
 </script>

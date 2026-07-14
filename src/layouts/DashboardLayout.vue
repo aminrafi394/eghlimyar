@@ -1,15 +1,28 @@
 <template>
-  <div class="min-h-screen bg-[#F8F9FC] flex flex-row-reverse">
+  <div class="min-h-screen bg-slate-100">
 
-    <DahboardSidebar />
+    <div class="flex">
 
-    <div class="flex-1 flex flex-col">
+      <!-- Sidebar -->
+      <DashboardSidebar />
 
-      <DashboardHeader />
+      <!-- Content -->
 
-      <main class="flex-1 p-6 overflow-auto">
-        <RouterView />
-      </main>
+      <div class="flex flex-1 flex-col min-w-0">
+
+        <!-- Header -->
+
+        <DashboardHeader />
+
+        <!-- Pages -->
+
+        <main
+          class="flex-1 overflow-y-auto px-4 py-6 sm:px-6 lg:px-8 xl:px-10"
+        >
+          <RouterView />
+        </main>
+
+      </div>
 
     </div>
 
@@ -17,6 +30,8 @@
 </template>
 
 <script setup>
-import DahboardSidebar from "@/components/dashboard/DashboardSidebar.vue";
+import { RouterView } from "vue-router";
+
 import DashboardHeader from "@/components/dashboard/DashboardHeader.vue";
+import DashboardSidebar from "@/components/dashboard/DashboardSidebar.vue";
 </script>
