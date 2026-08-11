@@ -3,11 +3,8 @@
     class="hidden lg:flex flex-col w-72 bg-white border-l border-slate-200 h-screen sticky top-0"
   >
     <!-- لوگو -->
-    <div
-      class="h-20 flex items-center justify-center border-b border-slate-200"
-    >
+    <div class="h-20 flex items-center justify-center border-b border-slate-200">
       <div class="flex items-center gap-3">
-
         <div
           class="w-12 h-12 rounded-2xl bg-green-600 flex items-center justify-center text-white text-xl"
         >
@@ -15,50 +12,39 @@
         </div>
 
         <div class="text-right">
-          <h2 class="font-extrabold text-slate-800">
-            اقلیم یار
-          </h2>
+          <h2 class="font-extrabold text-slate-800">اقلیم یار</h2>
 
-          <p class="text-xs text-slate-500">
-            پنل مدیریت
-          </p>
+          <p class="text-xs text-slate-500">پنل مدیریت</p>
         </div>
-
       </div>
     </div>
 
     <!-- اطلاعات کاربر -->
 
     <div class="px-6 py-6 border-b border-slate-200">
-
       <div class="flex flex-col items-center">
-
         <img
-          src="https://i.pravatar.cc/120"
-          class="w-20 h-20 rounded-full border-4 border-green-100"
+          :src="store.profileImage"
+          class="w-40 h-40 rounded-full object-cover border-4 border-green-600"
         />
 
         <h3 class="mt-4 font-bold text-slate-800">
-          مرتضی اشرف
+          {{ store.username }}
         </h3>
-
-        <span class="text-sm text-slate-500">
-          مدیر سیستم
-        </span>
-
+        <p>
+          {{ store.phoneNumber }}
+        </p>
       </div>
-
     </div>
 
     <!-- منو -->
 
     <div class="flex-1 px-4 py-6 space-y-2">
-
       <SidebarItem
         title="داشبورد"
         to="/dashboard"
         :icon="LayoutDashboard"
-        :active="route.path==='/dashboard'"
+        :active="route.path === '/dashboard'"
       />
 
       <SidebarItem
@@ -102,27 +88,23 @@
         :icon="User"
         :active="route.path.includes('/profile')"
       />
-
     </div>
 
     <!-- خروج -->
 
     <div class="p-5 border-t border-slate-200">
-
-      <button
-        class="w-full bg-red-500 hover:bg-red-600 text-white rounded-xl py-3 transition"
-      >
-        خروج از حساب
-      </button>
-
+      <router-link to="/">
+        <button class="w-full bg-red-500 hover:bg-red-600 text-white rounded-xl py-3 transition">
+          خروج از حساب
+        </button>
+      </router-link>
     </div>
-
   </aside>
 </template>
 
 <script setup>
-import SidebarItem from "./SidebarItem.vue";
-import { useRoute } from "vue-router";
+import SidebarItem from './SidebarItem.vue'
+import { useRoute } from 'vue-router'
 
 import {
   LayoutDashboard,
@@ -132,7 +114,8 @@ import {
   CreditCard,
   User,
   Lightbulb,
-} from "lucide-vue-next";
-
-const route = useRoute();
+} from 'lucide-vue-next'
+import { useUserStore } from '@/stores/authStore.js'
+const route = useRoute()
+const store = useUserStore()
 </script>

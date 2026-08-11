@@ -1,57 +1,58 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router'
 
 // Website
-import MainLayout from "@/layouts/MainLayout.vue";
-import HomeView from "@/views/website/HomeView.vue";
-import AboutView from "@/views/website/AboutView.vue";
-import ContactView from "@/views/website/ContactView.vue";
+import MainLayout from '@/layouts/MainLayout.vue'
+import HomeView from '@/views/website/HomeView.vue'
+import AboutView from '@/views/website/AboutView.vue'
+import ContactView from '@/views/website/ContactView.vue'
 
 // Auth
-import LoginView from "@/views/auth/LoginView.vue";
-import SignupView from "@/views/auth/SignupView.vue";
+import LoginView from '@/views/auth/LoginView.vue'
+import SignupView from '@/views/auth/SignupView.vue'
 
 // Dashboard Layout
-import DashboardLayout from "@/layouts/DashboardLayout.vue";
+import DashboardLayout from '@/layouts/DashboardLayout.vue'
 
 // Dashboard Views
-import DashboardView from "@/views/dashboard/DashboardView.vue";
-import ProfileView from "@/views/dashboard/ProfileView.vue";
+import DashboardView from '@/views/dashboard/DashboardView.vue'
+import ProfileView from '@/views/dashboard/ProfileView.vue'
 
-import FarmListView from "@/views/dashboard/FarmListView.vue";
-import AddFarmView from "@/views/dashboard/AddFarmView.vue";
-import EditFarmView from "@/views/dashboard/EditFarmView.vue";
+import FarmListView from '@/views/dashboard/FarmListView.vue'
+import FarmDetailView from "@/views/dashboard/FarmDetailView.vue";
+import AddFarmView from '@/views/dashboard/AddFarmView.vue'
+import EditFarmView from '@/views/dashboard/EditFarmView.vue'
 
-import WeatherView from "@/views/dashboard/WeatherView.vue";
+import WeatherView from '@/views/dashboard/WeatherView.vue'
 
-import RecommendationView from "@/views/dashboard/RecommendationView.vue";
+import RecommendationView from '@/views/dashboard/RecommendationView.vue'
 
-import ReportView from "@/views/dashboard/ReportView.vue";
-import ReportDetailView from "@/views/dashboard/ReportDetailView.vue";
+import ReportView from '@/views/dashboard/ReportView.vue'
+import ReportDetailView from '@/views/dashboard/ReportDetailView.vue'
 
-import PaymentListView from "@/views/dashboard/PaymentListView.vue";
-import PaymentView from "@/views/dashboard/PaymentView.vue";
+import PaymentListView from '@/views/dashboard/PaymentListView.vue'
+import PaymentView from '@/views/dashboard/PaymentView.vue'
 
 const routes = [
   // =========================
   // Website
   // =========================
   {
-    path: "/",
+    path: '/',
     component: MainLayout,
     children: [
       {
-        path: "",
-        name: "home",
+        path: '',
+        name: 'home',
         component: HomeView,
       },
       {
-        path: "about",
-        name: "about",
+        path: 'about',
+        name: 'about',
         component: AboutView,
       },
       {
-        path: "contact",
-        name: "contact",
+        path: 'contact',
+        name: 'contact',
         component: ContactView,
       },
     ],
@@ -61,14 +62,14 @@ const routes = [
   // Auth
   // =========================
   {
-    path: "/login",
-    name: "login",
+    path: '/login',
+    name: 'login',
     component: LoginView,
   },
 
   {
-    path: "/signup",
-    name: "signup",
+    path: '/signup',
+    name: 'signup',
     component: SignupView,
   },
 
@@ -76,72 +77,77 @@ const routes = [
   // Dashboard
   // =========================
   {
-    path: "/dashboard",
+    path: '/dashboard',
     component: DashboardLayout,
     children: [
       {
-        path: "",
-        name: "dashboard",
+        path: '',
+        name: 'dashboard',
         component: DashboardView,
       },
 
       {
-        path: "profile",
-        name: "profile",
+        path: 'profile',
+        name: 'profile',
         component: ProfileView,
       },
 
       {
-        path: "farms",
-        name: "farms",
+        path: 'farms',
+        name: 'farms',
         component: FarmListView,
+      },
+      {
+        path: 'farms/:id',
+        name: 'farm-detail',
+        component: FarmDetailView,
       },
 
       {
-        path: "add-farm",
-        name: "add-farm",
+        path: 'add-farm',
+        name: 'add-farm',
         component: AddFarmView,
       },
 
       {
-        path: "edit-farm/:id",
-        name: "edit-farm",
+        path: 'edit-farm/:id',
+        name: 'edit-farm',
         component: EditFarmView,
       },
 
       {
-        path: "weather",
-        name: "weather",
+        path: 'weather',
+        name: 'weather',
         component: WeatherView,
       },
 
       {
-        path: "recommendations",
-        name: "recommendations",
+        path: 'recommendations',
+        name: 'recommendations',
         component: RecommendationView,
       },
 
       {
-        path: "reports",
-        name: "reports",
+        path: 'reports',
+        name: 'reports',
         component: ReportView,
       },
 
       {
-        path: "reports/:id",
-        name: "report-detail",
+        path: 'reports/:id',
+        name: 'report-detail',
         component: ReportDetailView,
       },
 
       {
-        path: "payments",
-        name: "payments",
+        path: 'payments',
+        name: 'payments',
         component: PaymentListView,
       },
 
       {
-        path: "payment",
-        name: "payment",
+        path: 'payment',
+        name: 'payment',
         component: PaymentView,
       },
     ],
@@ -151,14 +157,14 @@ const routes = [
   // 404
   // =========================
   {
-    path: "/:pathMatch(.*)*",
-    redirect: "/",
+    path: '/:pathMatch(.*)*',
+    redirect: '/',
   },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(),
   routes,
-});
+})
 
-export default router;
+export default router

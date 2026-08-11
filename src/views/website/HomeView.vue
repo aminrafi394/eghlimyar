@@ -1,18 +1,38 @@
 <template>
-  <HeroSection />
+  <div
+    id="home"
+    class="min-h-screen overflow-x-hidden bg-slate-50"
+  >
+    <Navbar />
 
-  <FeatureSection />
+    <main>
+      <section id="hero">
+        <HeroSection />
+      </section>
 
-  <StatsSection />
+      <section id="features">
+        <FeatureSection />
+      </section>
 
-  <AboutSection />
+      <section id="stats">
+        <StatsSection />
+      </section>
 
-  <ContactCTA />
+      <section id="about" class="scroll-mt-20">
+        <AboutSection />
+      </section>
 
-  <Footer />
+      <section id="contact" class="scroll-mt-20">
+        <ContactCTA />
+      </section>
+    </main>
+
+    <Footer />
+  </div>
 </template>
 
 <script setup>
+import Navbar from "@/components/website/NavbarView.vue";
 import HeroSection from "@/components/website/HeroSection.vue";
 import FeatureSection from "@/components/website/FeatureSection.vue";
 import StatsSection from "@/components/website/StatsSection.vue";

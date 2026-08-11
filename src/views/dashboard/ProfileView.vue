@@ -1,98 +1,157 @@
+<script setup>
+import { ref } from "vue";
+import { useUserStore } from "@/stores/authStore.js";
+
+const store = useUserStore();
+
+const form = ref({
+  username: store.username,
+  phoneNumber: store.phoneNumber,
+  email: store.email,
+  role: store.role,
+  profileImage: store.profileImage,
+});
+
+const chooseImage = (event) => {
+  const file = event.target.files[0];
+
+  if (!file) return;
+
+  form.value.profileImage = URL.createObjectURL(file);
+};
+
+const saveProfile = () => {
+  store.updateProfile(form.value);
+
+  alert("اطلاعات با موفقیت ذخیره شد.");
+};
+</script>
+
 <template>
-  <div class="space-y-6">
+  <div class="max-w-6xl mx-auto p-4 md:p-8">
 
-    <!-- عنوان -->
-    <div>
-      <h1 class="text-3xl font-bold text-slate-800">
-        پروفایل کاربری
-      </h1>
+    <div class="bg-white rounded-2xl shadow-lg border border-slate-200">
 
-      <p class="text-slate-500 mt-2">
-        اطلاعات حساب کاربری خود را مشاهده و ویرایش کنید.
-      </p>
-    </div>
+      <div class="p-8">
 
-    <!-- کارت اطلاعات -->
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+        <h1 class="text-3xl font-bold text-slate-800">
+          پروفایل کاربری
+        </h1>
 
-      <div class="flex flex-col lg:flex-row gap-8">
+        <p class="text-slate-500 mt-2">
+          اطلاعات حساب کاربری خود را ویرایش کنید.
+        </p>
 
-        <!-- تصویر -->
-        <div class="flex justify-center">
+      </div>
 
-          <div
-            class="w-32 h-32 rounded-full bg-green-600 text-white flex items-center justify-center text-5xl font-bold"
-          >
-            م
+      <div
+        class="px-8 pb-8 flex flex-col lg:flex-row gap-10"
+      >
+
+        <!-- عکس -->
+
+        <div
+          class="flex flex-col items-center"
+        >
+
+          <div class="relative">
+
+            <img
+              :src="form.profileImage"
+              class="w-40 h-40 rounded-full object-cover border-4 border-green-600"
+            />
+
+            <label
+              for="image"
+              class="absolute bottom-2 right-2 bg-green-600 hover:bg-green-700 text-white w-10 h-10 rounded-full flex justify-center items-center cursor-pointer"
+            >
+
+              📷
+
+            </label>
+
+            <input
+              id="image"
+              type="file"
+              class="hidden"
+              accept="image/*"
+              @change="chooseImage"
+            />
+
           </div>
 
         </div>
 
-        <!-- اطلاعات -->
+        <!-- فرم -->
+
         <div class="flex-1">
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div
+            class="grid grid-cols-1 md:grid-cols-2 gap-6"
+          >
 
             <div>
-              <label class="block text-sm text-slate-500 mb-2">
+
+              <label class="block mb-2 text-sm">
                 نام و نام خانوادگی
               </label>
 
               <input
-                type="text"
-                value="مرتضی اشرف"
-                disabled
-                class="w-full border rounded-xl px-4 py-3 bg-slate-100"
-              >
+                v-model="form.username"
+                class="w-full border rounded-xl p-3 focus:ring-2 focus:ring-green-500 outline-none"
+              />
+
             </div>
 
             <div>
-              <label class="block text-sm text-slate-500 mb-2">
+
+              <label class="block mb-2 text-sm">
                 شماره موبایل
               </label>
 
               <input
-                type="text"
-                value="09123456789"
-                disabled
-                class="w-full border rounded-xl px-4 py-3 bg-slate-100"
-              >
+                v-model="form.phoneNumber"
+                class="w-full border rounded-xl p-3 focus:ring-2 focus:ring-green-500 outline-none"
+              />
+
             </div>
 
             <div>
-              <label class="block text-sm text-slate-500 mb-2">
+
+              <label class="block mb-2 text-sm">
                 ایمیل
               </label>
 
               <input
                 type="email"
-                value="user@gmail.com"
-                disabled
-                class="w-full border rounded-xl px-4 py-3 bg-slate-100"
-              >
+                v-model="form.email"
+                class="w-full border rounded-xl p-3 focus:ring-2 focus:ring-green-500 outline-none"
+              />
+
             </div>
 
             <div>
-              <label class="block text-sm text-slate-500 mb-2">
+
+              <label class="block mb-2 text-sm">
                 نقش
               </label>
 
               <input
-                type="text"
-                value="کشاورز"
-                disabled
-                class="w-full border rounded-xl px-4 py-3 bg-slate-100"
-              >
+                v-model="form.role"
+                class="w-full border rounded-xl p-3 focus:ring-2 focus:ring-green-500 outline-none"
+              />
+
             </div>
 
           </div>
 
-          <div class="mt-8 flex justify-end">
+          <div class="mt-10 flex justify-end">
 
             <button
-              class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl transition"
+              @click="saveProfile"
+              class="bg-green-600 hover:bg-green-700 transition text-white px-8 py-3 rounded-xl"
             >
-              ویرایش اطلاعات
+              ذخیره اطلاعات
             </button>
 
           </div>
@@ -105,6 +164,3 @@
 
   </div>
 </template>
-
-<script setup>
-</script>

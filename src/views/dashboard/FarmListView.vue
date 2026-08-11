@@ -59,20 +59,21 @@
 </template>
 
 <script setup>
-
 import { computed, ref } from "vue";
 
-import farms from "@/data/farms";
+import { useFarmStore } from "@/stores/farmStore";
 
 import FarmCard from "@/components/farms/FarmCard.vue";
 import FarmSearch from "@/components/farms/FarmSearch.vue";
 import FarmFilter from "@/components/farms/FarmFilter.vue";
 
-const search = ref("");
+const farmStore = useFarmStore();
 
+const search = ref("");
 const status = ref("");
+
 const filteredFarms = computed(() => {
-  return farms.filter((farm) => {
+  return farmStore.farms.filter((farm) => {
     const matchSearch =
       farm.name.toLowerCase().includes(search.value.toLowerCase()) ||
       farm.crop.toLowerCase().includes(search.value.toLowerCase()) ||

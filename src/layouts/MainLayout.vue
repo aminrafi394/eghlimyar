@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-slate-100">
 
-    <Navbar />
+    <!-- <Navbar /> -->
 
     <main>
       <RouterView />
@@ -11,6 +11,6 @@
 </template>
 
 <script setup>
-import Navbar from "@/components/website/NavbarView.vue";
+// import Navbar from "@/components/website/NavbarView.vue";
 import { RouterView } from "vue-router";
 </script>

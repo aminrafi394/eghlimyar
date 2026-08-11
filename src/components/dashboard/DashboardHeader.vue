@@ -24,19 +24,6 @@
     <!-- سمت چپ -->
     <div class="flex items-center gap-4">
 
-      <!-- اعلان -->
-
-      <button
-        class="relative w-11 h-11 rounded-xl border border-slate-200 flex items-center justify-center hover:bg-slate-100 transition"
-      >
-
-        <Bell :size="20" />
-
-        <span
-          class="absolute top-2 right-2 w-2.5 h-2.5 rounded-full bg-red-500"
-        ></span>
-
-      </button>
 
       <!-- کاربر -->
 
@@ -45,19 +32,18 @@
         <div class="text-right hidden sm:block">
 
           <h3 class="font-bold text-slate-700">
-            مرتضی اشرف
+          {{ store.username}}
           </h3>
-
-          <p class="text-xs text-slate-500">
-            مدیر سیستم
-          </p>
-
+          <p>کاربر اقلیم یار</p>
         </div>
-
-        <img
-          src="https://i.pravatar.cc/150"
-          class="w-12 h-12 rounded-full border-2 border-green-100"
-        />
+        <router-link to="/dashboard/profile">
+          <button>
+            <img
+              :src="store.profileImage"
+              class="w-12 h-12 rounded-full border-2 border-green-100"
+            />
+          </button>
+        </router-link>
 
       </div>
 
@@ -66,8 +52,9 @@
 </template>
 
 <script setup>
+const store = useUserStore()
+import { useUserStore } from "@/stores/authStore.js";
 import {
-  Bell,
   Menu,
 } from "lucide-vue-next";
 </script>
