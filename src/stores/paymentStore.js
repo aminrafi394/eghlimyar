@@ -38,11 +38,15 @@ export const usePaymentStore = defineStore("payment", {
 
   actions: {
     addPayment(payment) {
-      this.payments.unshift({
-        id: Date.now(),
-        ...payment,
-      });
-    },
+  const newPayment = {
+    id: Date.now(),
+    ...payment,
+  };
+
+  this.payments.unshift(newPayment);
+
+  return newPayment;
+},
 
     updatePayment(id, updatedPayment) {
       const index = this.payments.findIndex(

@@ -10,15 +10,6 @@
         <Menu :size="22" />
       </button>
 
-      <div>
-        <h1 class="text-2xl font-extrabold text-slate-800">
-          داشبورد
-        </h1>
-
-        <p class="text-sm text-slate-500 mt-1">
-          به پنل مدیریت اقلیم یار خوش آمدید.
-        </p>
-      </div>
     </div>
 
     <!-- سمت چپ -->

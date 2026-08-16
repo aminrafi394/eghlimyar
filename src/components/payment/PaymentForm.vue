@@ -344,7 +344,7 @@
 
 <script setup>
 import { computed, nextTick, onBeforeUnmount, reactive, ref } from 'vue'
-
+import { useRouter } from 'vue-router'
 import { usePaymentStore } from '@/stores/paymentStore'
 
 import iranianBanks from '@/data/iranianBanks'
@@ -352,8 +352,8 @@ import iranianBanks from '@/data/iranianBanks'
 /* =========================
    STORE
 ========================= */
-
 const paymentStore = usePaymentStore()
+const router = useRouter()
 
 /* =========================
    FORM
@@ -615,7 +615,6 @@ const validateForm = () => {
 
 const handlePayment = async () => {
   paymentSuccess.value = false
-
   paymentError.value = ''
 
   if (!validateForm()) {
@@ -625,38 +624,50 @@ const handlePayment = async () => {
   isLoading.value = true
 
   try {
-    /*
-     * فعلاً پرداخت آزمایشی است.
-     * بعداً API واقعی را اینجا وصل می‌کنیم.
-     */
-
+    // پرداخت آزمایشی
     await new Promise((resolve) => setTimeout(resolve, 1200))
 
-    paymentStore.addPayment({
+    const cardNumber = form.cardNumber.replace(/\s/g, '')
+
+    const maskedCard =
+      `${cardNumber.slice(0, 4)} **** **** ${cardNumber.slice(-4)}`
+
+    const now = new Date()
+
+    const payment = paymentStore.addPayment({
       amount: form.amount,
 
       status: 'پرداخت شده',
 
-      date: new Date().toLocaleDateString('fa-IR'),
+      date: now.toLocaleDateString('fa-IR'),
+
+      time: now.toLocaleTimeString('fa-IR', {
+        hour: '2-digit',
+        minute: '2-digit',
+      }),
+
+      card: maskedCard,
+
+      bank: detectedBank.value?.name || 'بانک نامشخص',
+
+      trackingCode: generateTrackingCode(),
+
+      type: 'پرداخت خدمات',
     })
 
-    paymentSuccess.value = true
+    // انتقال به رسید
+    router.push({
+      name: 'payment-receipt',
+      query: {
+        id: payment.id,
+      },
+    })
 
-    form.cardNumber = ''
-
-    form.cvv = ''
-
-    form.dynamicPassword = ''
-
-    form.expiryMonth = ''
-
-    form.expiryYear = ''
-
-    refreshCaptcha()
   } catch (error) {
-    console.error(error)
+    console.error('Payment error:', error)
 
-    paymentError.value = 'پرداخت انجام نشد. دوباره تلاش کنید.'
+    paymentError.value =
+      'پرداخت انجام نشد. دوباره تلاش کنید.'
   } finally {
     isLoading.value = false
   }
@@ -665,24 +676,24 @@ const handlePayment = async () => {
 /* =========================
    CLEANUP
 ========================= */
-
+const generateTrackingCode = () => {
+  return Math.floor(100000000 + Math.random() * 900000000).toString()
+}
 onBeforeUnmount(() => {
   if (otpInterval) {
     clearInterval(otpInterval)
   }
 })
 const handleCvvInput = async () => {
-  form.cvv = form.cvv
-    .replace(/\D/g, "")
-    .substring(0, 4);
+  form.cvv = form.cvv.replace(/\D/g, '').substring(0, 4)
 
-  errors.cvv = "";
+  errors.cvv = ''
 
   // بعد از وارد کردن 3 رقم
   if (form.cvv.length === 3) {
-    await nextTick();
+    await nextTick()
 
-    otpInput.value?.focus();
+    otpInput.value?.focus()
   }
-};
+}
 </script>

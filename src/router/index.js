@@ -18,7 +18,7 @@ import DashboardView from '@/views/dashboard/DashboardView.vue'
 import ProfileView from '@/views/dashboard/ProfileView.vue'
 
 import FarmListView from '@/views/dashboard/FarmListView.vue'
-import FarmDetailView from "@/views/dashboard/FarmDetailView.vue";
+import FarmDetailView from '@/views/dashboard/FarmDetailView.vue'
 import AddFarmView from '@/views/dashboard/AddFarmView.vue'
 import EditFarmView from '@/views/dashboard/EditFarmView.vue'
 
@@ -31,6 +31,7 @@ import ReportDetailView from '@/views/dashboard/ReportDetailView.vue'
 
 import PaymentListView from '@/views/dashboard/PaymentListView.vue'
 import PaymentView from '@/views/dashboard/PaymentView.vue'
+import PaymentReceiptView from '@/views/dashboard/PaymentReceiptView.vue'
 
 const routes = [
   // =========================
@@ -149,6 +150,11 @@ const routes = [
         path: 'payment',
         name: 'payment',
         component: PaymentView,
+      },
+      {
+        path: 'payment-receipt',
+        name: 'payment-receipt',
+        component: PaymentReceiptView,
       },
     ],
   },
