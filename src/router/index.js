@@ -9,6 +9,10 @@ import ContactView from '@/views/website/ContactView.vue'
 // Auth
 import LoginView from '@/views/auth/LoginView.vue'
 import SignupView from '@/views/auth/SignupView.vue'
+import SignupOtpView from '@/views/auth/SignupOtpView.vue'
+import ForgotPasswordView from '@/views/auth/ForgotPasswordView.vue'
+import ForgotPasswordOtpView from '@/views/auth/ForgotPasswordOtpView.vue'
+import ResetPasswordView from '@/views/auth/ResetPasswordView.vue'
 
 // Dashboard Layout
 import DashboardLayout from '@/layouts/DashboardLayout.vue'
@@ -67,11 +71,31 @@ const routes = [
     name: 'login',
     component: LoginView,
   },
+  {
+    path: '/forgot-password',
+    name: 'forgot-password',
+    component: ForgotPasswordView,
+  },
+  {
+    path: '/forgot-password/otp',
+    name: 'forgot-password-otp',
+    component: ForgotPasswordOtpView,
+  },
+  {
+    path: '/forgot-password/reset',
+    name: 'reset-password',
+    component: ResetPasswordView,
+  },
 
   {
     path: '/signup',
     name: 'signup',
     component: SignupView,
+  },
+  {
+    path: '/signup/otp',
+    name: 'signup-otp',
+    component: SignupOtpView,
   },
 
   // =========================
