@@ -32,6 +32,7 @@ import RecommendationView from '@/views/dashboard/RecommendationView.vue'
 
 import ReportView from '@/views/dashboard/ReportView.vue'
 import ReportDetailView from '@/views/dashboard/ReportDetailView.vue'
+import AddReportView from '@/views/dashboard/AddReportView.vue'
 
 import PaymentListView from '@/views/dashboard/PaymentListView.vue'
 import PaymentView from '@/views/dashboard/PaymentView.vue'
@@ -156,6 +157,11 @@ const routes = [
         path: 'reports',
         name: 'reports',
         component: ReportView,
+      },
+      {
+        path: 'add-report',
+        name: 'add-report',
+        component: AddReportView,
       },
 
       {
