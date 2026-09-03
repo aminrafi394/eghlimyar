@@ -1,79 +1,116 @@
 <template>
-  <section
-    class="relative z-20 mx-auto -mt-8 px-4 sm:-mt-12 sm:px-6 lg:-mt-16 lg:px-8"
-  >
+  <section class="relative overflow-hidden bg-white py-20 sm:py-24">
+    <!-- Decorative background -->
     <div
-      class="mx-auto grid max-w-7xl grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-5 lg:grid-cols-5 lg:gap-6"
-    >
-      <div
-        v-for="feature in features"
-        :key="feature.title"
-        class="group rounded-3xl bg-white p-6 shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl sm:p-7 lg:p-6"
-      >
-        <div
-          :class="feature.color"
-          class="flex h-14 w-14 items-center justify-center rounded-2xl text-2xl transition group-hover:scale-110 sm:h-16 sm:w-16 sm:text-3xl"
-        >
-          {{ feature.icon }}
-        </div>
+      class="pointer-events-none absolute -left-32 top-20 h-72 w-72 rounded-full bg-green-100/50 blur-3xl"
+    ></div>
 
-        <h3
-          class="mt-5 text-lg font-bold text-slate-800 sm:text-xl"
-        >
-          {{ feature.title }}
-        </h3>
+    <div
+      class="pointer-events-none absolute -right-32 bottom-10 h-72 w-72 rounded-full bg-emerald-100/40 blur-3xl"
+    ></div>
 
-        <p class="mt-3 text-sm leading-7 text-slate-500">
-          {{ feature.description }}
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <!-- Section Header -->
+      <div class="mx-auto max-w-2xl text-center">
+        <span
+          class="inline-flex items-center rounded-full border border-green-200 bg-green-50 px-4 py-1.5 text-sm font-medium text-green-700"
+        >
+          امکانات اقلیم‌یار
+        </span>
+
+        <h2
+          class="mt-5 text-3xl font-extrabold tracking-tight text-slate-900 sm:text-4xl"
+        >
+          همه‌چیز برای مدیریت هوشمند مزرعه
+        </h2>
+
+        <p class="mt-4 text-base leading-8 text-slate-500 sm:text-lg">
+          اقلیم‌یار ابزارهای موردنیاز شما را در یک محیط ساده و هوشمند
+          در اختیارتان قرار می‌دهد تا مدیریت مزرعه دقیق‌تر و آسان‌تر شود.
         </p>
+      </div>
 
-        <button
-          type="button"
-          class="mt-5 text-sm font-bold text-green-600 transition hover:text-green-700"
+      <!-- Features -->
+      <div
+        class="mt-14 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5"
+      >
+        <article
+          v-for="feature in features"
+          :key="feature.id"
+          class="group relative rounded-2xl border border-slate-200 bg-white p-6 transition-all duration-300 hover:-translate-y-1 hover:border-green-200 hover:shadow-xl hover:shadow-slate-200/50"
         >
-          مشاهده بیشتر ←
-        </button>
+          <!-- Icon -->
+          <div
+            class="flex h-12 w-12 items-center justify-center rounded-xl bg-slate-100 text-slate-700 transition-all duration-300 group-hover:bg-green-600 group-hover:text-white"
+          >
+            <component :is="feature.icon" :size="22" :stroke-width="1.8" />
+          </div>
+
+          <!-- Content -->
+          <div class="mt-5">
+            <h3 class="text-base font-bold text-slate-800">
+              {{ feature.title }}
+            </h3>
+
+            <p class="mt-3 text-sm leading-7 text-slate-500">
+              {{ feature.description }}
+            </p>
+          </div>
+
+          <!-- Small accent -->
+          <div
+            class="absolute bottom-0 right-6 left-6 h-0.5 origin-right scale-x-0 rounded-full bg-green-600 transition-transform duration-300 group-hover:scale-x-100"
+          ></div>
+        </article>
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
+import {
+  Sprout,
+  CloudSun,
+  Lightbulb,
+  FileText,
+  CreditCard,
+} from "lucide-vue-next";
+
 const features = [
   {
-    icon: "🌱",
+    id: 1,
     title: "مدیریت مزارع",
     description:
-      "ثبت، ویرایش و مدیریت اطلاعات تمامی مزارع به صورت یکپارچه.",
-    color: "bg-green-100",
+      "اطلاعات مزارع خود را یکجا ثبت و مدیریت کنید و همیشه دید دقیقی از وضعیت آن‌ها داشته باشید.",
+    icon: Sprout,
   },
   {
-    icon: "☀️",
-    title: "پیش‌بینی آب و هوا",
+    id: 2,
+    title: "آب و هوا",
     description:
-      "نمایش وضعیت فعلی و پیش‌بینی روزهای آینده برای هر مزرعه.",
-    color: "bg-yellow-100",
+      "وضعیت آب‌وهوا و پیش‌بینی روزهای آینده را برای تصمیم‌گیری بهتر در اختیار داشته باشید.",
+    icon: CloudSun,
   },
   {
-    icon: "🤖",
-    title: "توصیه هوشمند",
+    id: 3,
+    title: "توصیه‌های هوشمند",
     description:
-      "دریافت پیشنهادهای تخصصی برای آبیاری، کوددهی و نگهداری.",
-    color: "bg-emerald-100",
+      "بر اساس اطلاعات مزرعه، توصیه‌های کاربردی برای مدیریت بهتر و تصمیم‌گیری دقیق‌تر دریافت کنید.",
+    icon: Lightbulb,
   },
   {
-    icon: "📊",
-    title: "گزارش‌های تحلیلی",
+    id: 4,
+    title: "گزارش‌ها",
     description:
-      "بررسی عملکرد مزارع با نمودارها و گزارش‌های دقیق.",
-    color: "bg-blue-100",
+      "گزارش‌های مربوط به مزارع خود را ثبت، مشاهده و بررسی کنید و روند فعالیت‌ها را بهتر دنبال کنید.",
+    icon: FileText,
   },
   {
-    icon: "💳",
+    id: 5,
     title: "پرداخت آنلاین",
     description:
-      "مدیریت اشتراک و پرداخت‌ها به صورت سریع و ایمن.",
-    color: "bg-orange-100",
+      "هزینه خدمات و اشتراک‌ها را به‌صورت سریع و امن از طریق سامانه پرداخت کنید.",
+    icon: CreditCard,
   },
 ];
 </script>

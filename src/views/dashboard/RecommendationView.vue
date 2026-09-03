@@ -21,7 +21,7 @@
         </p>
 
         <h2 class="mt-3 text-4xl font-bold">
-          12
+          {{ recommendationStore.newRecommendations }}
         </h2>
       </div>
 
@@ -31,7 +31,7 @@
         </p>
 
         <h2 class="mt-3 text-4xl font-bold">
-          3
+           {{ recommendationStore.warningRecommendations }}
         </h2>
       </div>
 
@@ -41,7 +41,7 @@
         </p>
 
         <h2 class="mt-3 text-4xl font-bold">
-          8
+          {{ recommendationStore.doneRecommendations }}
         </h2>
       </div>
 
@@ -56,4 +56,7 @@
 
 <script setup>
 import RecommendationList from "@/components/recommendation/RecommendationList.vue";
+import { useRecommendationStore } from "@/stores/recommendationStore";
+
+const recommendationStore = useRecommendationStore();
 </script>

@@ -1,138 +1,167 @@
 <script setup>
-import { computed, ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useUserStore } from '@/stores/authStore.js'
+
+import { ref, computed } from 'vue'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/authStore'
+
 
 const router = useRouter()
-const route = useRoute()
 const store = useUserStore()
+
 
 const password = ref('')
 const confirmPassword = ref('')
 
+
 const errorMessage = ref('')
+const successMessage = ref('')
+
+
 const isLoading = ref(false)
+
+
 const showPassword = ref(false)
 const showConfirmPassword = ref(false)
 
-const phoneNumber = computed(() => {
-  return route.query.phone || ''
-})
 
-const passwordStrength = computed(() => {
-  const value = password.value
 
-  if (!value) {
-    return {
-      level: 0,
-      text: '',
-    }
+// قدرت رمز
+const passwordStrength = computed(()=>{
+
+  let level = 0
+
+  if(password.value.length >= 6){
+    level++
   }
 
-  if (value.length < 6) {
-    return {
-      level: 1,
-      text: 'ضعیف',
-    }
+  if(/[A-Z]/.test(password.value)){
+    level++
   }
 
-  if (
-    value.length >= 8 &&
-    /[A-Z]/.test(value) &&
-    /[a-z]/.test(value) &&
-    /\d/.test(value)
-  ) {
-    return {
-      level: 3,
-      text: 'قوی',
-    }
+  if(/[0-9]/.test(password.value)){
+    level++
   }
+
+
+  let text='ضعیف'
+
+
+  if(level===2){
+    text='متوسط'
+  }
+
+
+  if(level===3){
+    text='قوی'
+  }
+
 
   return {
-    level: 2,
-    text: 'متوسط',
+    level,
+    text
   }
+
 })
 
-const resetPassword = () => {
-  errorMessage.value = ''
 
-  if (!password.value || !confirmPassword.value) {
-    errorMessage.value =
-      'لطفاً هر دو فیلد رمز عبور را تکمیل کنید'
 
-    return
-  }
+// تغییر رمز
 
-  if (password.value.length < 6) {
-    errorMessage.value =
-      'رمز عبور باید حداقل ۶ کاراکتر باشد'
+const resetPassword = ()=>{
 
-    return
-  }
 
-  if (password.value !== confirmPassword.value) {
-    errorMessage.value =
-      'رمز عبور و تکرار آن یکسان نیستند'
+errorMessage.value=''
+successMessage.value=''
 
-    return
-  }
 
-  if (!phoneNumber.value) {
-    router.replace({
-      name: 'forgot-password',
-    })
+if(
+!password.value ||
+!confirmPassword.value
+){
 
-    return
-  }
+errorMessage.value =
+'تمامی فیلدها را پر کنید'
 
-  isLoading.value = true
+return
 
-  /*
-   * فعلاً API نداریم.
-   *
-   * در نسخه فعلی رمز عبور داخل Pinia تغییر می‌کند.
-   *
-   * بعداً این قسمت تبدیل می‌شود به:
-   *
-   * await authApi.resetPassword({
-   *   phoneNumber: phoneNumber.value,
-   *   password: password.value
-   * })
-   */
-
-  setTimeout(() => {
-    const success = store.resetPassword(
-      phoneNumber.value,
-      password.value
-    )
-
-    isLoading.value = false
-
-    if (!success) {
-      errorMessage.value =
-        'کاربری با این شماره موبایل پیدا نشد'
-
-      return
-    }
-
-    router.push({
-      name: 'login',
-      query: {
-        reset: 'success',
-      },
-    })
-  }, 500)
 }
 
-const goBack = () => {
-  router.push({
-    name: 'forgot-password-otp',
-    query: {
-      phone: phoneNumber.value,
-    },
-  })
+
+
+if(password.value !== confirmPassword.value){
+
+errorMessage.value =
+'رمز عبور یکسان نیست'
+
+return
+
 }
+
+
+
+isLoading.value=true
+
+
+
+setTimeout(()=>{
+
+
+const result =
+store.updatePassword(
+password.value
+)
+
+
+
+if(result){
+
+
+successMessage.value =
+'رمز عبور با موفقیت تغییر کرد'
+
+
+setTimeout(()=>{
+
+router.replace({
+name:'login'
+})
+
+},1000)
+
+
+
+}
+else{
+
+
+errorMessage.value =
+'خطا در تغییر رمز'
+
+
+}
+
+
+
+isLoading.value=false
+
+
+},500)
+
+
+
+}
+
+
+
+const goBack = ()=>{
+
+router.push({
+name:'forgot-password-otp'
+})
+
+}
+
+
 </script>
 
 <template>

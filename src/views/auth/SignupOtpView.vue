@@ -184,78 +184,85 @@ const handlePasteValue = (value) => {
 // =========================
 
 const verifyOtp = () => {
-  if (isVerifying.value) {
-    return
-  }
 
-  errorMessage.value = ''
-  successMessage.value = ''
 
-  if (otpValue.value.length !== OTP_LENGTH) {
-    errorMessage.value =
-      'لطفاً کد تأیید را کامل وارد کنید'
+if(otpValue.value.length !== OTP_LENGTH){
 
-    return
-  }
+errorMessage.value =
+'کد تأیید را کامل وارد کنید'
 
-  isVerifying.value = true
+return
 
-  /*
-   * فعلاً Mock OTP
-   *
-   * بعداً این قسمت:
-   *
-   * await authApi.verifyOtp(...)
-   *
-   * خواهد شد.
-   */
+}
 
-  setTimeout(() => {
-    if (otpValue.value !== TEST_OTP) {
-      errorMessage.value =
-        'کد تأیید واردشده صحیح نیست'
 
-      isVerifying.value = false
 
-      otp.value = Array(OTP_LENGTH).fill('')
+isVerifying.value = true
 
-      focusInput(0)
 
-      return
-    }
 
-    // =========================
-    // Final Registration
-    // =========================
+setTimeout(()=>{
 
-    const registered = store.register()
 
-    if (!registered) {
-      errorMessage.value =
-        'اطلاعات ثبت‌نام پیدا نشد. لطفاً دوباره ثبت‌نام کنید'
+if(otpValue.value !== TEST_OTP){
 
-      isVerifying.value = false
 
-      setTimeout(() => {
-        router.replace({
-          name: 'signup',
-        })
-      }, 1200)
+errorMessage.value =
+'کد تأیید اشتباه است'
 
-      return
-    }
 
-    successMessage.value =
-      'شماره موبایل با موفقیت تأیید شد'
+isVerifying.value=false
 
-    isVerifying.value = false
 
-    setTimeout(() => {
-      router.replace({
-        name: 'login',
-      })
-    }, 1000)
-  }, 500)
+return
+
+}
+
+
+
+const result =
+store.register()
+
+
+
+if(!result){
+
+
+errorMessage.value =
+'اطلاعات ثبت نام پیدا نشد'
+
+
+isVerifying.value=false
+
+
+return
+
+}
+
+
+
+successMessage.value =
+'ثبت نام با موفقیت انجام شد'
+
+
+
+setTimeout(()=>{
+
+
+router.replace({
+
+name:'login'
+
+})
+
+
+},1000)
+
+
+
+},500)
+
+
 }
 
 // =========================

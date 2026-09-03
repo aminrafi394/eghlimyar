@@ -2,22 +2,6 @@
   <aside
     class="hidden lg:flex flex-col w-72 bg-white border-l border-slate-200 h-screen sticky top-0"
   >
-    <!-- لوگو -->
-    <!-- <div class="h-20 flex items-center justify-center border-b border-slate-200">
-      <div class="flex items-center gap-3">
-        <div
-          class="w-12 h-12 rounded-2xl bg-green-600 flex items-center justify-center text-white text-xl"
-        >
-          🌱
-        </div>
-
-        <div class="text-right">
-          <h2 class="font-extrabold text-slate-800">اقلیم یار</h2>
-
-          <p class="text-xs text-slate-500">پنل مدیریت</p>
-        </div>
-      </div>
-    </div> -->
 
     <!-- اطلاعات کاربر -->
 

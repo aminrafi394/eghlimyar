@@ -1,20 +1,33 @@
 <template>
   <section
-    class="mx-auto max-w-7xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8 lg:py-28"
+    id="about"
+    class="relative overflow-hidden bg-slate-50 py-16 sm:py-20 lg:py-28"
   >
+    <!-- Decorative background -->
     <div
-      class="grid items-center gap-12 lg:grid-cols-2 lg:gap-20"
+      class="pointer-events-none absolute -right-40 top-20 h-80 w-80 rounded-full bg-green-100/50 blur-3xl"
+    ></div>
+
+    <div
+      class="pointer-events-none absolute -left-40 bottom-10 h-80 w-80 rounded-full bg-emerald-100/40 blur-3xl"
+    ></div>
+
+    <div
+      class="relative mx-auto grid max-w-7xl items-center gap-12 px-4 sm:px-6 lg:grid-cols-2 lg:gap-20 lg:px-8"
     >
       <!-- Image -->
       <div class="relative">
-        <img
-          src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1000"
-          alt="کشاورزی هوشمند"
-          class="h-[300px] w-full rounded-3xl object-cover shadow-xl sm:h-[420px] lg:h-[520px]"
-        />
+        <div class="overflow-hidden rounded-3xl shadow-xl">
+          <img
+            src="../../../public/images/image2.png"
+            alt="کشاورزی هوشمند"
+            class="h-[300px] w-full object-cover transition duration-700 hover:scale-105 sm:h-[420px] lg:h-[540px]"
+          />
+        </div>
 
+        <!-- Floating Stat -->
         <div
-          class="absolute -bottom-5 right-4 rounded-2xl bg-white p-5 shadow-xl sm:right-8 sm:p-6"
+          class="absolute -bottom-5 right-4 rounded-2xl border border-slate-100 bg-white p-5 shadow-xl sm:right-8 sm:p-6"
         >
           <p class="text-2xl font-extrabold text-green-600 sm:text-3xl">
             +500
@@ -28,33 +41,37 @@
 
       <!-- Content -->
       <div>
+        <!-- Label -->
         <span
-          class="inline-block rounded-full bg-green-100 px-4 py-2 text-xs font-bold text-green-700 sm:text-sm"
+          class="inline-flex rounded-full border border-green-200 bg-green-50 px-4 py-1.5 text-xs font-bold text-green-700 sm:text-sm"
         >
-          درباره اقلیم یار
+          درباره اقلیم‌یار
         </span>
 
+        <!-- Title -->
         <h2
-          class="mt-5 text-3xl font-extrabold leading-[1.5] text-slate-800 sm:mt-6 sm:text-4xl lg:text-5xl"
+          class="mt-5 text-3xl font-extrabold leading-[1.5] tracking-tight text-slate-900 sm:mt-6 sm:text-4xl lg:text-5xl"
         >
-          کشاورزی هوشمند،
+          فناوری در کنار
           <br />
-          آینده‌ای بهتر
+          <span class="text-green-600">کشاورزی هوشمند</span>
         </h2>
 
+        <!-- Description -->
         <p
           class="mt-5 text-sm leading-8 text-slate-600 sm:mt-6 sm:text-base"
         >
-          اقلیم یار با هدف هوشمندسازی مدیریت مزارع ایجاد شده است.
-          این سامانه به کشاورزان کمک می‌کند اطلاعات مزارع خود را
-          مدیریت کنند، وضعیت آب‌وهوا را بررسی کنند و بر اساس داده‌ها
-          تصمیم‌های دقیق‌تری بگیرند.
+          اقلیم‌یار با هدف ساده‌تر کردن مدیریت مزارع و کمک به تصمیم‌گیری
+          دقیق‌تر ایجاد شده است. ما تلاش می‌کنیم اطلاعات مهم موردنیاز
+          کشاورزان را در یک محیط ساده، کاربردی و یکپارچه در اختیار آن‌ها
+          قرار دهیم.
         </p>
 
+        <!-- Benefits -->
         <div class="mt-7 space-y-5 sm:mt-8">
           <div class="flex items-start gap-3 sm:gap-4">
             <div
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-100 text-sm font-bold text-green-600 sm:h-10 sm:w-10"
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-600 sm:h-10 sm:w-10"
             >
               ✓
             </div>
@@ -72,7 +89,7 @@
 
           <div class="flex items-start gap-3 sm:gap-4">
             <div
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-100 text-sm font-bold text-green-600 sm:h-10 sm:w-10"
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-600 sm:h-10 sm:w-10"
             >
               ✓
             </div>
@@ -83,36 +100,31 @@
               </h3>
 
               <p class="mt-1 text-xs leading-6 text-slate-500 sm:text-sm">
-                وضعیت آب‌وهوا و پیش‌بینی روزهای آینده را بررسی کنید.
+                وضعیت آب‌وهوا و پیش‌بینی روزهای آینده را برای تصمیم‌گیری بهتر
+                بررسی کنید.
               </p>
             </div>
           </div>
 
           <div class="flex items-start gap-3 sm:gap-4">
             <div
-              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-100 text-sm font-bold text-green-600 sm:h-10 sm:w-10"
+              class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-green-100 text-green-600 sm:h-10 sm:w-10"
             >
               ✓
             </div>
 
             <div>
               <h3 class="text-sm font-bold text-slate-800 sm:text-base">
-                گزارش‌های دقیق
+                گزارش‌ها و توصیه‌های کاربردی
               </h3>
 
               <p class="mt-1 text-xs leading-6 text-slate-500 sm:text-sm">
-                عملکرد مزارع را بررسی و گزارش‌های کاربردی دریافت کنید.
+                اطلاعات و گزارش‌های موردنیاز خود را برای مدیریت بهتر مزرعه
+                در اختیار داشته باشید.
               </p>
             </div>
           </div>
         </div>
-
-        <a
-          href="#contact"
-          class="mt-8 inline-flex rounded-2xl bg-green-600 px-7 py-3.5 text-sm font-bold text-white transition hover:bg-green-700 sm:mt-10 sm:px-8 sm:py-4 sm:text-base"
-        >
-          شروع کار با اقلیم یار
-        </a>
       </div>
     </div>
   </section>

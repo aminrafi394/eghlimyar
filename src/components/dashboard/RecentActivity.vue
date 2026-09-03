@@ -1,66 +1,163 @@
 <template>
-  <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
-    <div class="flex items-center justify-between mb-6">
-      <h2 class="text-lg font-bold text-slate-800">فعالیت‌های اخیر</h2>
+  <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+    <div class="mb-6 flex items-center justify-between">
+      <div>
+        <h2 class="text-lg font-bold text-slate-800">فعالیت‌های اخیر</h2>
+        <p class="mt-1 text-sm text-slate-500">
+          آخرین فعالیت‌های ثبت شده
+        </p>
+      </div>
 
-      <button class="text-sm text-green-600 hover:text-green-700 transition">مشاهده همه</button>
+      <span class="text-sm text-green-600">
+        {{ activities.length }} فعالیت
+      </span>
     </div>
 
-    <div class="space-y-5">
-      <div v-for="item in activities" :key="item.id" class="flex items-start gap-4">
-        <div class="w-11 h-11 rounded-xl bg-green-100 flex items-center justify-center">
-          <component :is="item.icon" :size="18" class="text-green-600" />
+    <div v-if="activities.length" class="space-y-5">
+      <div
+        v-for="item in activities"
+        :key="item.id"
+        class="flex items-start gap-4"
+      >
+        <!-- Icon -->
+        <div
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl"
+          :class="item.iconBackground"
+        >
+          <component
+            :is="item.icon"
+            :size="18"
+            :class="item.iconColor"
+          />
         </div>
 
-        <div class="flex-1">
+        <!-- Content -->
+        <div class="min-w-0 flex-1">
           <h3 class="font-semibold text-slate-700">
             {{ item.title }}
           </h3>
 
-          <p class="text-sm text-slate-500 mt-1">
+          <p class="mt-1 text-sm text-slate-500">
             {{ item.description }}
           </p>
         </div>
 
-        <span class="text-xs text-slate-400 whitespace-nowrap">
+        <!-- Time -->
+        <span class="whitespace-nowrap text-xs text-slate-400">
           {{ item.time }}
         </span>
       </div>
+    </div>
+
+    <!-- Empty state -->
+    <div v-else class="py-10 text-center">
+      <p class="font-semibold text-slate-700">
+        هنوز فعالیتی ثبت نشده است
+      </p>
+
+      <p class="mt-2 text-sm text-slate-500">
+        فعالیت‌های جدید در این بخش نمایش داده می‌شوند.
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
-import { Sprout, CloudSun, FileText, CreditCard } from 'lucide-vue-next'
+import { computed } from "vue";
+import {
+  Sprout,
+  FileText,
+  CreditCard,
+  Lightbulb,
+} from "lucide-vue-next";
 
-const activities = [
-  {
-    id: 1,
-    title: 'ثبت مزرعه جدید',
-    description: 'مزرعه گندم شماره ۳ اضافه شد.',
-    time: '۱۰ دقیقه پیش',
-    icon: Sprout,
-  },
-  {
-    id: 2,
-    title: 'بروزرسانی آب و هوا',
-    description: 'اطلاعات هواشناسی دریافت شد.',
-    time: '۴۵ دقیقه پیش',
-    icon: CloudSun,
-  },
-  {
-    id: 3,
-    title: 'ثبت گزارش',
-    description: 'گزارش هفتگی با موفقیت ثبت شد.',
-    time: '۲ ساعت پیش',
-    icon: FileText,
-  },
-  {
-    id: 4,
-    title: 'پرداخت انجام شد',
-    description: 'هزینه اشتراک با موفقیت پرداخت شد.',
-    time: 'دیروز',
-    icon: CreditCard,
-  },
-]
+import { useFarmStore } from "@/stores/farmStore";
+import { useReportStore } from "@/stores/reportStore";
+import { usePaymentStore } from "@/stores/paymentStore";
+import { useRecommendationStore } from "@/stores/recommendationStore";
+
+const farmStore = useFarmStore();
+const reportStore = useReportStore();
+const paymentStore = usePaymentStore();
+const recommendationStore = useRecommendationStore();
+
+const activities = computed(() => {
+  const result = [];
+
+  // آخرین مزرعه
+  const latestFarm = [...farmStore.farms]
+    .sort((a, b) => Number(b.id) - Number(a.id))[0];
+
+  if (latestFarm) {
+    result.push({
+      id: `farm-${latestFarm.id}`,
+      title: "ثبت مزرعه",
+      description: `مزرعه «${latestFarm.name}» ثبت شده است.`,
+      time: "اخیر",
+      icon: Sprout,
+      iconBackground: "bg-green-100",
+      iconColor: "text-green-600",
+      order: Number(latestFarm.id),
+    });
+  }
+
+  // آخرین گزارش
+  const latestReport = [...reportStore.reports]
+    .sort((a, b) => Number(b.id) - Number(a.id))[0];
+
+  if (latestReport) {
+    result.push({
+      id: `report-${latestReport.id}`,
+      title: "ثبت گزارش",
+      description: `گزارش «${latestReport.title}» ثبت شده است.`,
+      time: latestReport.createdAt || "اخیر",
+      icon: FileText,
+      iconBackground: "bg-blue-100",
+      iconColor: "text-blue-600",
+      order: Number(latestReport.id),
+    });
+  }
+
+  // آخرین پرداخت
+  const payments = paymentStore.getPayments;
+
+  const latestPayment = [...payments]
+    .sort((a, b) => Number(b.id || 0) - Number(a.id || 0))[0];
+
+  if (latestPayment) {
+    result.push({
+      id: `payment-${latestPayment.id}`,
+      title: "پرداخت انجام شد",
+      description: `پرداخت ${new Intl.NumberFormat("fa-IR").format(
+        Number(latestPayment.amount || 0),
+      )} تومان ثبت شده است.`,
+      time: latestPayment.date || "اخیر",
+      icon: CreditCard,
+      iconBackground: "bg-orange-100",
+      iconColor: "text-orange-600",
+      order: Number(latestPayment.id || 0),
+    });
+  }
+
+  // آخرین توصیه
+  const latestRecommendation = [...recommendationStore.recommendations]
+    .sort((a, b) => Number(b.id) - Number(a.id))[0];
+
+  if (latestRecommendation) {
+    result.push({
+      id: `recommendation-${latestRecommendation.id}`,
+      title: "توصیه جدید",
+      description: latestRecommendation.title,
+      time: latestRecommendation.createdAt || "اخیر",
+      icon: Lightbulb,
+      iconBackground: "bg-purple-100",
+      iconColor: "text-purple-600",
+      order: Number(latestRecommendation.id),
+    });
+  }
+
+  return result
+    .sort((a, b) => b.order - a.order)
+    .slice(0, 4);
+});
 </script>

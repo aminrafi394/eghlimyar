@@ -2,25 +2,29 @@
   <div
     class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-lg"
   >
-    <div class="flex items-center justify-between">
-      <div>
-        <p class="text-slate-500 text-sm">
+    <div class="flex items-center justify-between gap-4">
+      <div class="min-w-0">
+        <p class="text-sm text-slate-500">
           وضعیت آب و هوا
         </p>
 
+        <p class="mt-1 text-sm font-medium text-slate-400">
+          {{ weatherStore.locationName }}
+        </p>
+
         <h2 class="mt-2 text-4xl font-extrabold text-slate-800">
-          {{ weather.temp }}°
+          {{ weatherStore.currentWeather.temp }}°
         </h2>
 
         <p class="mt-2 text-slate-600">
-          {{ weather.status }}
+          {{ weatherStore.currentWeather.status }}
         </p>
       </div>
 
       <div
-        class="flex h-20 w-20 items-center justify-center rounded-full bg-green-100 text-5xl"
+        class="flex h-20 w-20 shrink-0 items-center justify-center rounded-full bg-green-100 text-5xl"
       >
-        ☀️
+        {{ weatherStore.currentWeather.icon }}
       </div>
     </div>
 
@@ -31,7 +35,7 @@
         </p>
 
         <p class="mt-1 font-bold text-slate-700">
-          {{ weather.humidity }}%
+          {{ weatherStore.currentWeather.humidity }}%
         </p>
       </div>
 
@@ -41,7 +45,7 @@
         </p>
 
         <p class="mt-1 font-bold text-slate-700">
-          {{ weather.wind }} km/h
+          {{ weatherStore.currentWeather.wind }} km/h
         </p>
       </div>
 
@@ -51,7 +55,7 @@
         </p>
 
         <p class="mt-1 font-bold text-slate-700">
-          {{ weather.rain }}%
+          {{ weatherStore.currentWeather.rain }}%
         </p>
       </div>
     </div>
@@ -59,11 +63,7 @@
 </template>
 
 <script setup>
-const weather = {
-  temp: 31,
-  status: "آفتابی",
-  humidity: 45,
-  wind: 12,
-  rain: 5,
-};
+import { useWeatherStore } from "@/stores/weatherStore";
+
+const weatherStore = useWeatherStore();
 </script>

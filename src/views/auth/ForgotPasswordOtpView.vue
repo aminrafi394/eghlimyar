@@ -8,9 +8,11 @@ import {
 } from 'vue'
 
 import { useRoute, useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/authStore.js'
 
 const router = useRouter()
 const route = useRoute()
+const store = useUserStore()
 
 const TEST_OTP = '123456'
 const OTP_LENGTH = 6
@@ -30,11 +32,18 @@ const canResend = ref(false)
 
 let timer = null
 
+
+// =========================
+// Phone
+// =========================
+
 const phoneNumber = computed(() => {
   return route.query.phone || ''
 })
 
+
 const formattedPhone = computed(() => {
+
   const phone = phoneNumber.value
 
   if (!phone) {
@@ -48,222 +57,408 @@ const formattedPhone = computed(() => {
   return phone
 })
 
+
+// =========================
+// OTP
+// =========================
+
 const otpValue = computed(() => {
   return otp.value.join('')
 })
 
+
+// =========================
+// Input Refs
+// =========================
+
 const setInputRef = (element, index) => {
+
   if (element) {
     inputs.value[index] = element
   }
+
 }
 
+
 const focusInput = async (index) => {
+
   await nextTick()
 
   if (inputs.value[index]) {
+
     inputs.value[index].focus()
     inputs.value[index].select()
+
   }
+
 }
 
+
+// =========================
+// Input
+// =========================
+
 const handleInput = (event, index) => {
+
   errorMessage.value = ''
 
-  const value = event.target.value.replace(/\D/g, '')
+  const value =
+    event.target.value.replace(/\D/g, '')
+
 
   if (!value) {
+
     otp.value[index] = ''
+
     return
+
   }
 
+
   if (value.length > 1) {
+
     handlePasteValue(value)
+
     return
+
   }
+
 
   otp.value[index] = value
 
+
   if (index < OTP_LENGTH - 1) {
+
     focusInput(index + 1)
+
   }
+
 
   if (otpValue.value.length === OTP_LENGTH) {
+
     verifyOtp()
+
   }
+
 }
 
+
+// =========================
+// Keydown
+// =========================
+
 const handleKeydown = (event, index) => {
+
   errorMessage.value = ''
 
+
   if (event.key === 'Backspace') {
+
     if (otp.value[index]) {
+
       otp.value[index] = ''
+
       return
+
     }
 
+
     if (index > 0) {
+
       otp.value[index - 1] = ''
+
       focusInput(index - 1)
+
     }
+
   }
+
 
   if (
     event.key === 'ArrowLeft' &&
     index > 0
   ) {
+
     event.preventDefault()
+
     focusInput(index - 1)
+
   }
+
 
   if (
     event.key === 'ArrowRight' &&
     index < OTP_LENGTH - 1
   ) {
+
     event.preventDefault()
+
     focusInput(index + 1)
+
   }
+
 }
+
+
+// =========================
+// Paste
+// =========================
 
 const handlePaste = (event) => {
+
   event.preventDefault()
 
-  const value = event.clipboardData
-    ?.getData('text')
-    ?.replace(/\D/g, '')
+  const value =
+    event.clipboardData
+      ?.getData('text')
+      ?.replace(/\D/g, '')
+
 
   if (value) {
+
     handlePasteValue(value)
+
   }
+
 }
+
 
 const handlePasteValue = (value) => {
-  const digits = value
-    .slice(0, OTP_LENGTH)
-    .split('')
 
-  otp.value = Array(OTP_LENGTH).fill('')
+  const digits =
+    value
+      .slice(0, OTP_LENGTH)
+      .split('')
+
+
+  otp.value =
+    Array(OTP_LENGTH).fill('')
+
 
   digits.forEach((digit, index) => {
+
     otp.value[index] = digit
+
   })
 
+
   if (digits.length === OTP_LENGTH) {
+
     verifyOtp()
-  } else {
-    focusInput(digits.length)
+
   }
+  else {
+
+    focusInput(digits.length)
+
+  }
+
 }
 
+
+// =========================
+// Verify OTP
+// =========================
+
 const verifyOtp = () => {
+
   if (isVerifying.value) {
     return
   }
 
+
   errorMessage.value = ''
 
+
   if (otpValue.value.length !== OTP_LENGTH) {
+
     errorMessage.value =
       'لطفاً کد تأیید را کامل وارد کنید'
 
     return
+
   }
+
 
   isVerifying.value = true
 
-  /*
-   * فعلاً OTP آزمایشی
-   *
-   * بعداً:
-   *
-   * await authApi.verifyForgotPasswordOtp(...)
-   */
 
   setTimeout(() => {
+
+
+    // کد اشتباه
     if (otpValue.value !== TEST_OTP) {
+
       errorMessage.value =
         'کد تأیید واردشده صحیح نیست'
 
+
       isVerifying.value = false
 
-      otp.value = Array(OTP_LENGTH).fill('')
+
+      otp.value =
+        Array(OTP_LENGTH).fill('')
+
 
       focusInput(0)
 
       return
+
     }
+
+
+    // =========================
+    // OTP صحیح
+    // =========================
+
+    /*
+     * این قسمت مهم است.
+     *
+     * شماره‌ای که کاربر OTP آن را تأیید کرده
+     * داخل Store ذخیره می‌شود تا ResetPassword
+     * بتواند رمز همان کاربر را تغییر دهد.
+     */
+
+    store.setResetPhone(
+      phoneNumber.value
+    )
+
 
     isVerifying.value = false
 
-    router.push({
+
+    router.replace({
+
       name: 'reset-password',
+
       query: {
         phone: phoneNumber.value,
       },
+
     })
+
+
   }, 500)
+
 }
+
+
+// =========================
+// Timer
+// =========================
 
 const startTimer = () => {
+
   clearInterval(timer)
 
-  remainingTime.value = RESEND_TIME
+
+  remainingTime.value =
+    RESEND_TIME
+
+
   canResend.value = false
 
+
   timer = setInterval(() => {
+
+
     if (remainingTime.value > 0) {
+
       remainingTime.value--
+
     }
+
 
     if (remainingTime.value === 0) {
+
       canResend.value = true
+
       clearInterval(timer)
+
     }
+
+
   }, 1000)
+
 }
 
+
+// =========================
+// Resend
+// =========================
+
 const resendOtp = () => {
+
   if (!canResend.value) {
     return
   }
 
-  otp.value = Array(OTP_LENGTH).fill('')
+
+  otp.value =
+    Array(OTP_LENGTH).fill('')
+
+
   errorMessage.value = ''
 
-  /*
-   * بعداً:
-   *
-   * await authApi.sendForgotPasswordOtp(phoneNumber.value)
-   */
 
   startTimer()
+
   focusInput(0)
+
 }
+
+
+// =========================
+// Back
+// =========================
 
 const goBack = () => {
+
   router.push({
+
     name: 'forgot-password',
+
   })
+
 }
 
+
+// =========================
+// Lifecycle
+// =========================
+
 onMounted(() => {
+
+
   if (!phoneNumber.value) {
+
     router.replace({
+
       name: 'forgot-password',
+
     })
 
     return
+
   }
+
 
   startTimer()
 
+
   nextTick(() => {
+
     focusInput(0)
+
   })
+
 })
 
+
 onUnmounted(() => {
+
   clearInterval(timer)
+
 })
 </script>
 

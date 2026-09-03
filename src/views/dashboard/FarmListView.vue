@@ -1,3 +1,4 @@
+```vue
 <template>
   <div class="space-y-8">
 
@@ -28,10 +29,7 @@
     </div>
 
     <!-- Search & Filter -->
-
-    <div
-      class="grid grid-cols-1 gap-4 lg:grid-cols-3"
-    >
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
 
       <div class="lg:col-span-2">
         <FarmSearch v-model="search" />
@@ -42,10 +40,7 @@
     </div>
 
     <!-- Farms -->
-
-    <div
-      class="grid grid-cols-1 gap-6 md:grid-cols-2 2xl:grid-cols-3"
-    >
+    <div class="flex flex-col gap-4">
 
       <FarmCard
         v-for="farm in filteredFarms"
@@ -86,3 +81,4 @@ const filteredFarms = computed(() => {
   });
 });
 </script>
+```

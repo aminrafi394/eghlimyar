@@ -1,60 +1,107 @@
 <script setup>
-import { useUserStore } from '@/stores/authStore.js'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useUserStore } from "@/stores/authStore.js";
+import { ref } from "vue";
+import { useRouter } from "vue-router";
 
-const store = useUserStore()
-const router = useRouter()
 
-const identifier = ref('')
-const password = ref('')
-const rememberMe = ref(false)
+const store = useUserStore();
+const router = useRouter();
 
-const errorMessage = ref('')
-const isLoading = ref(false)
+
+const identifier = ref("");
+const password = ref("");
+
+const errorMessage = ref("");
+const isLoading = ref(false);
+
+
 
 const login = () => {
-  errorMessage.value = ''
 
-  if (!identifier.value.trim() || !password.value) {
-    errorMessage.value = 'لطفاً تمامی فیلدها را تکمیل کنید'
-    return
-  }
 
-  isLoading.value = true
+errorMessage.value=''
 
-  // فعلاً ورود با Pinia
-  // بعداً این بخش به API متصل می‌شود
-  setTimeout(() => {
-    const success = store.login(
-      identifier.value,
-      password.value
-    )
 
-    if (success) {
-      router.push({
-        name: 'dashboard',
-      })
-    } else {
-      errorMessage.value =
-        'نام کاربری یا رمز عبور اشتباه است'
+if(
+!identifier.value ||
+!password.value
+){
 
-      isLoading.value = false
-    }
-  }, 400)
+errorMessage.value =
+'اطلاعات را کامل کنید'
+
+return
+
 }
+
+
+
+isLoading.value=true
+
+
+
+setTimeout(()=>{
+
+
+const success =
+store.login(
+identifier.value,
+password.value
+)
+
+
+
+if(success){
+
+
+router.push({
+
+name:'dashboard'
+
+})
+
+
+}else{
+
+
+errorMessage.value =
+'نام کاربری یا رمز عبور اشتباه است'
+
+
+}
+
+
+
+isLoading.value=false
+
+
+
+},400)
+
+
+
+}
+
+
 
 const goToSignup = () => {
+
   router.push({
-    name: 'signup',
-  })
-}
+    name:"signup"
+  });
+
+};
+
+
 
 const forgotPassword = () => {
+
   router.push({
-    name: 'forgot-password',
-  })
-}
+    name:"forgot-password"
+  });
+
+};
+
 </script>
 
 <template>

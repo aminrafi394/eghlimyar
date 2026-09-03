@@ -1,126 +1,128 @@
 <template>
-  <header
-    class="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur"
-  >
-    <div
-      class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:h-20 sm:px-6 lg:px-8"
-    >
+  <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/90 backdrop-blur-xl">
+    <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
       <!-- Logo -->
-      <a
-        href="#home"
-        class="flex items-center gap-2 sm:gap-3"
-      >
+      <a href="#home" class="flex items-center gap-3">
         <div
-          class="flex h-10 w-10 items-center justify-center rounded-xl bg-green-600 text-lg text-white sm:h-12 sm:w-12 sm:rounded-2xl sm:text-xl"
+          class="flex h-11 w-11 items-center justify-center rounded-2xl bg-green-600 text-white shadow-sm"
         >
-          🌱
+          <Sprout :size="23" :stroke-width="2" />
         </div>
 
         <div>
-          <h1 class="text-base font-extrabold text-slate-800 sm:text-lg">
-            اقلیم یار
-          </h1>
+          <h1 class="text-lg font-black tracking-tight text-slate-900">اقلیم‌یار</h1>
 
-          <p class="hidden text-[10px] text-slate-500 sm:block">
-            سامانه هوشمند کشاورزی
-          </p>
+          <p class="text-[10px] font-medium text-slate-400">سامانه هوشمند کشاورزی</p>
         </div>
       </a>
 
-      <!-- Desktop Menu -->
-      <nav class="hidden items-center gap-7 lg:flex">
+      <!-- Desktop Navigation -->
+      <nav class="hidden items-center gap-8 lg:flex">
         <a
           href="#home"
-          class="text-sm font-medium text-slate-700 transition hover:text-green-600"
+          class="text-sm font-semibold text-slate-800 transition hover:text-green-600"
         >
           صفحه اصلی
         </a>
 
         <a
-          href="#about"
-          class="text-sm font-medium text-slate-700 transition hover:text-green-600"
+          href="#features"
+          class="text-sm font-medium text-slate-500 transition hover:text-green-600"
         >
+          امکانات
+        </a>
+
+        <a href="#about" class="text-sm font-medium text-slate-500 transition hover:text-green-600">
           درباره ما
         </a>
-
         <a
-          href="#features"
-          class="text-sm font-medium text-slate-700 transition hover:text-green-600"
+          href="#footer"
+          class="text-sm font-medium text-slate-500 transition hover:text-green-600"
         >
-          خدمات
-        </a>
-
-        <a
-          href="#contact"
-          class="text-sm font-medium text-slate-700 transition hover:text-green-600"
-        >
-          تماس با ما
+          ارتباط با اقلیم یار
         </a>
       </nav>
 
       <!-- Actions -->
-      <div class="flex items-center gap-2 sm:gap-3">
+      <div class="flex items-center gap-3">
         <RouterLink
           to="/login"
-          class="hidden rounded-xl bg-green-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-green-700 sm:block"
+          class="hidden px-3 py-2 text-sm font-semibold text-slate-700 transition hover:text-green-600 sm:block"
         >
           ورود
         </RouterLink>
 
+        <RouterLink
+          to="/signup"
+          class="hidden rounded-xl bg-green-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-green-700 hover:shadow-md sm:block"
+        >
+          شروع کار
+        </RouterLink>
+
+        <!-- Mobile Menu Button -->
         <button
           type="button"
-          class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 text-xl text-slate-700 lg:hidden"
+          class="flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:border-green-200 hover:bg-green-50 hover:text-green-600 lg:hidden"
           @click="menuOpen = !menuOpen"
+          :aria-label="menuOpen ? 'بستن منو' : 'باز کردن منو'"
+          :aria-expanded="menuOpen"
         >
-          ☰
+          <X v-if="menuOpen" :size="21" />
+          <Menu v-else :size="21" />
         </button>
       </div>
     </div>
 
     <!-- Mobile Menu -->
-    <div
-      v-if="menuOpen"
-      class="border-t border-slate-200 bg-white px-4 py-4 lg:hidden"
-    >
-      <nav class="flex flex-col gap-2">
+    <div v-if="menuOpen" class="border-t border-slate-200 bg-white px-4 py-4 lg:hidden">
+      <nav class="flex flex-col gap-1">
         <a
           href="#home"
-          class="rounded-xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100"
+          class="rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-green-50 hover:text-green-600"
           @click="menuOpen = false"
         >
           صفحه اصلی
         </a>
 
         <a
+          href="#features"
+          class="rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-green-50 hover:text-green-600"
+          @click="menuOpen = false"
+        >
+          امکانات
+        </a>
+
+        <a
           href="#about"
-          class="rounded-xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100"
+          class="rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-green-50 hover:text-green-600"
           @click="menuOpen = false"
         >
           درباره ما
         </a>
-
         <a
-          href="#features"
-          class="rounded-xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100"
+          href="#footer"
+          class="rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-green-50 hover:text-green-600"
           @click="menuOpen = false"
         >
-          خدمات
+        ارتباط با اقلیم یار
         </a>
 
-        <a
-          href="#contact"
-          class="rounded-xl px-4 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100"
-          @click="menuOpen = false"
-        >
-          تماس با ما
-        </a>
+        <div class="my-2 border-t border-slate-100"></div>
 
         <RouterLink
           to="/login"
-          class="mt-2 rounded-xl bg-green-600 px-4 py-3 text-center text-sm font-semibold text-white"
+          class="rounded-xl px-4 py-3 text-center text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
           @click="menuOpen = false"
         >
-          ورود به سامانه
+          ورود
+        </RouterLink>
+
+        <RouterLink
+          to="/signup"
+          class="mt-1 rounded-xl bg-green-600 px-4 py-3 text-center text-sm font-bold text-white transition hover:bg-green-700"
+          @click="menuOpen = false"
+        >
+          شروع کار با اقلیم‌یار
         </RouterLink>
       </nav>
     </div>
@@ -128,8 +130,9 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { RouterLink } from "vue-router";
+import { ref } from 'vue'
+import { RouterLink } from 'vue-router'
+import { Sprout, Menu, X } from 'lucide-vue-next'
 
-const menuOpen = ref(false);
+const menuOpen = ref(false)
 </script>

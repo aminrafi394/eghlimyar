@@ -1,40 +1,42 @@
 <template>
-  <section
-    class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4"
-  >
+  <section class="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
+    <!-- مزارع -->
     <StatCard
       title="تعداد مزارع"
-      value="12"
-      change="+2 مزرعه"
+      :value="farmStore.farms.length"
+      change="مزرعه ثبت شده"
       :positive="true"
       :icon="Trees"
       iconBackground="bg-green-600"
     />
 
+    <!-- گزارش‌ها -->
     <StatCard
-      title="گزارش ها"
-      value="34"
-      change="+8 گزارش"
+      title="گزارش‌ها"
+      :value="reportStore.reports.length"
+      change="گزارش ثبت شده"
       :positive="true"
       :icon="FileText"
       iconBackground="bg-blue-600"
     />
 
+    <!-- پرداخت‌ها -->
     <StatCard
-      title="پرداخت ها"
-      value="9"
-      change="-1 پرداخت"
-      :positive="false"
+      title="پرداخت‌ها"
+      :value="paymentStore.getPayments.length"
+      change="پرداخت ثبت شده"
+      :positive="true"
       :icon="CreditCard"
       iconBackground="bg-orange-500"
     />
 
+    <!-- توصیه‌ها -->
     <StatCard
-      title="کاربران"
-      value="5"
-      change="+1 کاربر"
+      title="توصیه‌ها"
+      :value="recommendationStore.totalRecommendations"
+      change="توصیه ثبت شده"
       :positive="true"
-      :icon="Users"
+      :icon="Lightbulb"
       iconBackground="bg-purple-600"
     />
   </section>
@@ -47,6 +49,16 @@ import {
   Trees,
   FileText,
   CreditCard,
-  Users,
+  Lightbulb,
 } from "lucide-vue-next";
+
+import { useFarmStore } from "@/stores/farmStore";
+import { useReportStore } from "@/stores/reportStore";
+import { usePaymentStore } from "@/stores/paymentStore";
+import { useRecommendationStore } from "@/stores/recommendationStore";
+
+const farmStore = useFarmStore();
+const reportStore = useReportStore();
+const paymentStore = usePaymentStore();
+const recommendationStore = useRecommendationStore();
 </script>

@@ -1,95 +1,101 @@
 <template>
-  <div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-6">
+  <div
+    class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+  >
+    <!-- Header -->
+    <div class="mb-6 flex items-center justify-between">
+      <div>
+        <h2 class="text-lg font-bold text-slate-800">
+          آخرین گزارش‌ها
+        </h2>
 
-    <div class="flex items-center justify-between mb-6">
+        <p class="mt-1 text-sm text-slate-500">
+          آخرین گزارش‌های ثبت شده
+        </p>
+      </div>
 
-      <h2 class="text-lg font-bold text-slate-800">
-        آخرین گزارش‌ها
-      </h2>
-
-      <button
-        class="text-sm text-green-600 hover:text-green-700 transition"
+      <RouterLink
+        to="/dashboard/reports"
+        class="text-sm font-medium text-green-600 transition hover:text-green-700"
       >
         مشاهده همه
-      </button>
-
+      </RouterLink>
     </div>
 
+    <!-- Reports -->
     <div class="space-y-4">
-
-      <div
-        v-for="report in reports"
+      <RouterLink
+        v-for="report in latestReports"
         :key="report.id"
-        class="border rounded-xl p-4 hover:bg-slate-50 transition"
+        :to="`/dashboard/reports/${report.id}`"
+        class="block rounded-xl border border-slate-200 p-4 transition hover:bg-slate-50 hover:shadow-sm"
       >
-
-        <div class="flex items-center justify-between">
-
-          <div>
-
-            <h3 class="font-bold text-slate-700">
+        <div class="flex items-start justify-between gap-4">
+          <div class="min-w-0">
+            <h3 class="truncate font-bold text-slate-700">
               {{ report.title }}
             </h3>
 
-            <p class="text-sm text-slate-500 mt-2">
-              {{ report.date }}
+            <p class="mt-2 text-sm text-slate-500">
+              {{ report.createdAt }}
             </p>
 
+            <p
+              v-if="report.farm"
+              class="mt-1 text-xs text-slate-400"
+            >
+              {{ report.farm }}
+            </p>
           </div>
 
           <span
-            class="px-3 py-1 rounded-full text-xs font-semibold"
+            class="shrink-0 rounded-full px-3 py-1 text-xs font-semibold"
             :class="statusClass(report.status)"
           >
-            {{ report.status }}
+            {{ report.statusLabel }}
           </span>
-
         </div>
+      </RouterLink>
 
+      <!-- Empty State -->
+      <div
+        v-if="latestReports.length === 0"
+        class="py-10 text-center"
+      >
+        <p class="font-semibold text-slate-700">
+          هنوز گزارشی ثبت نشده است
+        </p>
+
+        <p class="mt-2 text-sm text-slate-500">
+          بعد از ثبت گزارش، اینجا نمایش داده می‌شود.
+        </p>
       </div>
-
     </div>
-
   </div>
 </template>
 
 <script setup>
+import { computed } from "vue";
+import { RouterLink } from "vue-router";
+import { useReportStore } from "@/stores/reportStore";
 
-const reports = [
+const reportStore = useReportStore();
 
-{
-id:1,
-title:"گزارش سلامت گندم",
-date:"۱۴۰۵/۰۴/۲۴",
-status:"تکمیل شده"
-},
+const latestReports = computed(() => {
+  return [...reportStore.reports]
+    .sort((a, b) => Number(b.id) - Number(a.id))
+    .slice(0, 3);
+});
 
-{
-id:2,
-title:"بررسی آبیاری مزرعه",
-date:"۱۴۰۵/۰۴/۲۳",
-status:"در حال بررسی"
-},
+const statusClass = (status) => {
+  if (status === "ready") {
+    return "bg-green-100 text-green-700";
+  }
 
-{
-id:3,
-title:"کنترل آفات",
-date:"۱۴۰۵/۰۴/۲۲",
-status:"تکمیل شده"
-}
+  if (status === "processing") {
+    return "bg-yellow-100 text-yellow-700";
+  }
 
-]
-
-const statusClass = (status)=>{
-
-if(status==="تکمیل شده"){
-
-return "bg-green-100 text-green-700"
-
-}
-
-return "bg-yellow-100 text-yellow-700"
-
-}
-
+  return "bg-slate-100 text-slate-600";
+};
 </script>
