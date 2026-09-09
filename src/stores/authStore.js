@@ -1,10 +1,7 @@
-import { defineStore } from "pinia"
-
+import { defineStore } from "pinia";
 
 export const useUserStore = defineStore("user", {
-
   state: () => ({
-
     username: "",
     password: "",
     phoneNumber: "",
@@ -12,181 +9,116 @@ export const useUserStore = defineStore("user", {
     email: "user@gmail.com",
     role: "کشاورز",
 
-    isLoggedIn: false,
-
+    // وضعیت ورود
+    isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
 
     profileImage:
       "https://ui-avatars.com/api/?name=M&background=16a34a&color=fff",
 
-
-    // signup
+    // =================
+    // Signup
+    // =================
     pendingSignup: null,
 
-
-    // forgot password
+    // =================
+    // Forgot Password
+    // =================
     pendingResetPhone: null,
-
-
   }),
 
-
-
-  actions:{
-
-
-
+  actions: {
     // =================
     // Signup
     // =================
 
-    setPendingSignup(data){
-
-      this.pendingSignup = data
-
+    setPendingSignup(data) {
+      this.pendingSignup = data;
     },
 
-
-    register(){
-
-
-      if(!this.pendingSignup){
-
-        return false
-
+    register() {
+      if (!this.pendingSignup) {
+        return false;
       }
 
+      this.username = this.pendingSignup.username;
+      this.password = this.pendingSignup.password;
+      this.phoneNumber = this.pendingSignup.phoneNumber;
 
-      this.username =
-      this.pendingSignup.username
+      this.pendingSignup = null;
 
-
-      this.password =
-      this.pendingSignup.password
-
-
-      this.phoneNumber =
-      this.pendingSignup.phoneNumber
-
-
-
-      this.pendingSignup = null
-
-
-      return true
-
+      return true;
     },
-
-
-
 
     // =================
     // Login
     // =================
 
-    login(identifier,password){
-
-
-      if(
-
+    login(identifier, password) {
+      if (
         (
           identifier === this.username ||
           identifier === this.phoneNumber
-        )
-
-        &&
-
+        ) &&
         password === this.password
+      ) {
+        // Pinia
+        this.isLoggedIn = true;
 
-      ){
+        // LocalStorage
+        localStorage.setItem("isLoggedIn", "true");
 
-        this.isLoggedIn = true
-
-        return true
-
+        return true;
       }
 
-
-      return false
-
+      return false;
     },
 
+    // =================
+    // Logout
+    // =================
 
+    logout() {
+      // Pinia
+      this.isLoggedIn = false;
 
-
-
-    logout(){
-
-      this.isLoggedIn = false
-
+      // LocalStorage
+      localStorage.removeItem("isLoggedIn");
     },
-
-
-
-
 
     // =================
     // Forgot Password
     // =================
 
-
-    setResetPhone(phone){
-
-      this.pendingResetPhone = phone
-
+    setResetPhone(phone) {
+      this.pendingResetPhone = phone;
     },
 
-
-
-    updatePassword(newPassword){
-
-
-      if(
-        !this.pendingResetPhone
-      ){
-
-        return false
-
+    updatePassword(newPassword) {
+      if (!this.pendingResetPhone) {
+        return false;
       }
 
-
-
-      if(
-        this.pendingResetPhone !== this.phoneNumber
-      ){
-
-        return false
-
+      if (this.pendingResetPhone !== this.phoneNumber) {
+        return false;
       }
 
+      this.password = newPassword;
 
+      this.pendingResetPhone = null;
 
-      this.password = newPassword
-
-
-      this.pendingResetPhone = null
-
-
-      return true
-
+      return true;
     },
 
+    // =================
+    // Profile
+    // =================
 
-
-
-
-    updateProfile(data){
-
-      this.username = data.username
-      this.phoneNumber = data.phoneNumber
-      this.email = data.email
-      this.role = data.role
-      this.profileImage = data.profileImage
-
-    }
-
-
-
-  }
-
-
-})
+    updateProfile(data) {
+      this.username = data.username;
+      this.phoneNumber = data.phoneNumber;
+      this.email = data.email;
+      this.role = data.role;
+      this.profileImage = data.profileImage;
+    },
+  },
+});

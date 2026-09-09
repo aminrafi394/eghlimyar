@@ -5,7 +5,7 @@
   >
     <Navbar />
 
-    <main>
+    <main class="pt-20">
 
       <section id="hero">
         <HeroSection />
@@ -22,17 +22,13 @@
     </main>
 
     <Footer />
-
   </div>
 </template>
 
-
 <script setup>
-
 import Navbar from "@/components/website/NavbarView.vue";
 import HeroSection from "@/components/website/HeroSection.vue";
 import FeatureSection from "@/components/website/FeatureSection.vue";
 import AboutSection from "@/components/website/AboutSection.vue";
 import Footer from "@/components/website/FooterView.vue";
-
 </script>

@@ -1,6 +1,10 @@
 <template>
-  <header class="sticky top-0 z-50 border-b border-slate-200/70 bg-white/90 backdrop-blur-xl">
-    <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+  <header
+    class="fixed inset-x-0 top-0 z-[100] border-b border-slate-200/70 bg-white/95 backdrop-blur-xl shadow-sm"
+  >
+    <div
+      class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8"
+    >
       <!-- Logo -->
       <a href="#home" class="flex items-center gap-3">
         <div
@@ -10,9 +14,13 @@
         </div>
 
         <div>
-          <h1 class="text-lg font-black tracking-tight text-slate-900">اقلیم‌یار</h1>
+          <h1 class="text-lg font-black tracking-tight text-slate-900">
+            اقلیم‌یار
+          </h1>
 
-          <p class="text-[10px] font-medium text-slate-400">سامانه هوشمند کشاورزی</p>
+          <p class="text-[10px] font-medium text-slate-400">
+            سامانه هوشمند کشاورزی
+          </p>
         </div>
       </a>
 
@@ -32,9 +40,13 @@
           امکانات
         </a>
 
-        <a href="#about" class="text-sm font-medium text-slate-500 transition hover:text-green-600">
+        <a
+          href="#about"
+          class="text-sm font-medium text-slate-500 transition hover:text-green-600"
+        >
           درباره ما
         </a>
+
         <a
           href="#footer"
           class="text-sm font-medium text-slate-500 transition hover:text-green-600"
@@ -74,7 +86,10 @@
     </div>
 
     <!-- Mobile Menu -->
-    <div v-if="menuOpen" class="border-t border-slate-200 bg-white px-4 py-4 lg:hidden">
+    <div
+      v-if="menuOpen"
+      class="border-t border-slate-200 bg-white px-4 py-4 shadow-lg lg:hidden"
+    >
       <nav class="flex flex-col gap-1">
         <a
           href="#home"
@@ -99,12 +114,13 @@
         >
           درباره ما
         </a>
+
         <a
           href="#footer"
           class="rounded-xl px-4 py-3 text-sm font-medium text-slate-600 transition hover:bg-green-50 hover:text-green-600"
           @click="menuOpen = false"
         >
-        ارتباط با اقلیم یار
+          ارتباط با اقلیم یار
         </a>
 
         <div class="my-2 border-t border-slate-100"></div>
@@ -130,9 +146,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { RouterLink } from 'vue-router'
-import { Sprout, Menu, X } from 'lucide-vue-next'
+import { ref } from "vue";
+import { RouterLink } from "vue-router";
+import { Sprout, Menu, X } from "lucide-vue-next";
 
-const menuOpen = ref(false)
+const menuOpen = ref(false);
 </script>
